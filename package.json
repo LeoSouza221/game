@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [
     "phaser",
@@ -15,11 +17,16 @@
     "typescript",
     "vue",
     "vite"
-],
+  ],
   "dependencies": {
-    "nuxt": "^3.15.2",
-    "phaser": "^3.87.0",
+    "nuxt": "^3.16.0",
+    "phaser": "^3.88.2",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.2.0",
+    "eslint": "^9.22.0",
+    "typescript": "^5.8.2"
   }
 }
