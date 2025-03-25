@@ -7,7 +7,7 @@ export default class ZoneHandler {
 
 
   constructor(scene: MainMenu) {
-    this.renderZone = (x: number, y: number) => {
+    this.renderZone = (x: number, y: number): GameObjects.Zone => {
       const dropZone = scene.add.zone(x, scene.getHeight() / 2 + 100, 200, 200).setRectangleDropZone(200, 200);
       dropZone.setData({
         "hasCards": false
