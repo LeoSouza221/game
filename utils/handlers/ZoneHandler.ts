@@ -5,7 +5,6 @@ export default class ZoneHandler {
   renderZone: GameObjects.Zone
   renderOutline: (dropZone: GameObjects.Zone) => void
 
-
   constructor(scene: MainMenu) {
     this.renderZone = (x: number, y: number): GameObjects.Zone => {
       const dropZone = scene.add.zone(x, scene.getHeight() / 2 + 100, 200, 200).setRectangleDropZone(200, 200);
