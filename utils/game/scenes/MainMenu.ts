@@ -82,15 +82,6 @@ export class MainMenu extends Scene {
     return height
   }
 
-  createCardPreview() {
-    this.cardPreview = this.add.sprite(0, 0, "cards");
-    this.cardPreview.visible = false;
-    this.cardPreview.alpha = 0.25;
-    this.cardPreview.displayWidth = this.gameOptions.cardWidth * this.gameOptions.boardSizeRatio;
-    this.cardPreview.displayHeight = this.gameOptions.cardHeight * this.gameOptions.boardSizeRatio;
-    this.cardPreview.setOrigin(0.5, 0.0);
-  }
-
 
   createCard(n: number, name: string) {
     const coordinates = this.setHandCoordinates(n, this.gameOptions.startingCards);
@@ -122,32 +113,6 @@ export class MainMenu extends Scene {
       x: xPosition,
       y: yPosition,
       r: rotation
-    }
-  }
-
-  // method to arrange cards in hand
-  arrangeCardsInHand() {
-    this.handGroup.children.iterate((card, i): boolean => {
-      card.setDepth(i);
-      const coordinates = this.setHandCoordinates(i, this.handGroup.countActive());
-      this.tweens.add({
-        targets: card,
-        rotation: coordinates.r,
-        x: coordinates.x,
-        y: coordinates.y,
-        // displayWidth: this.gameOptions.cardWidth / 2,
-        // displayHeight: this.gameOptions.cardHeight / 2,
-        duration: 150
-      });
-
-      return true
-    }, this);
-  }
-
-  setPreviewCoordinates(n: number, totalCards: number) {
-    return {
-      x: this.getWidth() / 2 - (totalCards - 1) * this.gameOptions.cardWidth * this.gameOptions.boardSizeRatio * 0.6 + n * this.gameOptions.cardWidth * this.gameOptions.boardSizeRatio * 1.2,
-      y: 700
     }
   }
 }
