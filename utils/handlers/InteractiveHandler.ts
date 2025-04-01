@@ -9,37 +9,95 @@ export default class InteractiveHandler {
     scene.cardPreview = undefined;
     this.localScene = scene
     this.game = scene.game
-    // scene.dealCards.on('pointerdown', () => {
-    //     scene.socket.emit("dealCards", scene.socket.id);
-    //     scene.dealCards.disableInteractive();
-    // })
+    scene.input.on('pointerdown', () => {
+      // scene.socket.emit("passTurn", scene.socket.id);
+      console.log('aqui 2')
 
-    // scene.dealCards.on('pointerover', () => {
-    //     scene.dealCards.setColor('#ff69b4');
-    // })
+      // scene.passTurn.disableInteractive();
+    })
 
-    // scene.dealCards.on('pointerout', () => {
-    //     scene.dealCards.setColor('#00ffff')
-    // })
+    // const button = this.add.rectangle(config.width / 2, config.height / 2, config.width / 3, config.height / 4, 0xff0000)
+    // const label = this.add.text(10, 10, 'Click and Hold')
+    //   .setScale(1.5)
+    //   .setOrigin(.5)
+    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
 
-    // scene.input.on('pointerover', (_: any, gameObjects: GameObjects.Image[]) => {
-    //   const pointer = scene.input.activePointer;
-    //   if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-    //     scene.cardPreview = scene.add.image(pointer.worldX, pointer.worldY, gameObjects[0].data.values.sprite).setScale(0.5, 0.5);
-    //   };
-    // });
+    // const resultLabel1 = this.add.text(10, 10, 'Last Button press duration: ??? ')
+    //   .setScale(1.5)
+    //   .setOrigin(.5)
+    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
 
-    // scene.input.on('pointerout', (_: any, gameObjects: GameObjects.Image[]) => {
-    //   if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-    //     scene.cardPreview?.setVisible(false);
-    //   };
-    // });
+    // const resultLabel2 = this.add.text(10, 10, 'You held at least 1 Second')
+    //   .setScale(1.5)
+    //   .setOrigin(.5)
+    //   .setVisible(false)
+    //   .setColor('#00ff00')
+    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
+
+    // Phaser.Display.Align.In.Center(label, button);
+
+    // Phaser.Display.Align.To.BottomCenter(resultLabel1, button, 0, 10);
+    // Phaser.Display.Align.To.TopCenter(resultLabel2, button, 0, 10);
+
+    // let startButtonPressTime = 0;
+    // let delaydeCallTimer;
+    // button.setInteractive()
+    //   .on('pointerdown', e => {
+    //     // reset everything
+    //     resultLabel2.setVisible(false);
+    //     startButtonPressTime = Date.now();
+    //     resultLabel1.setText(`Last Button press duration: ??? `);
+    //     // just to be save clear timer if a timer is still running
+    //     try {
+    //       if (delaydeCallTimer) {
+    //         delaydeCallTimer.remove(false)
+    //       }
+    //     } catch (e) {
+    //       // just to be save
+    //     }
+
+    //     // here you would call the function that pauses, or ... (I just show the text label)
+    //     delaydeCallTimer = this.time.delayedCall(1000, e => resultLabel2.setVisible(true));
+    //   })
+    //   .on('pointerup', e => {
+    //     //just to be save clear timer if a timer is still running
+    //     try {
+    //       if (delaydeCallTimer) {
+    //         delaydeCallTimer.remove(false)
+    //       }
+    //     } catch (e) {
+    //       // just to be save
+    //     }
+
+    //     resultLabel1.setText(`Last Button press duration: ${((Date.now() - startButtonPressTime) / 1000).toFixed(2)}s`);
+    //   })
+
+    scene.input.on('pointerover', () => {
+      console.log('aqui')
+      scene.passTurn.setColor('#ff69b4');
+    })
+
+    scene.input.on('pointerout', () => {
+      scene.passTurn.setColor('#00ffff');
+    })
+
+    scene.input.on('pointerover', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
+      const pointer = scene.input.activePointer;
+      // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
+      //   scene.cardPreview = scene.add.image(pointer.worldX, pointer.worldY, gameObjects[0].data.values.sprite).setScale(0.5, 0.5);
+      // };
+    });
+
+    scene.input.on('pointerout', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
+      // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
+      //   scene.cardPreview?.setVisible(false);
+      // };
+    });
 
     scene.input.on("dragstart", (_: Input.Pointer, card: GameObjects.Image) => {
 
       // is the card in hand?
       if (scene.handGroup.contains(card)) {
-        console.log('aqui')
 
         // remove card from hand
         card.setTint(0xff69b4);
@@ -59,7 +117,6 @@ export default class InteractiveHandler {
       // if the card is not in hand and not on the board...
       if (scene.handGroup && !scene.handGroup.contains(card) && scene.boardGroup && !scene.boardGroup.contains(card)) {
         // move the card to pointer position
-        console.log('aqui 2')
         card.x = dragX
         card.y = dragY
       }

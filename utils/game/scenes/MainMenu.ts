@@ -4,6 +4,8 @@ import { EventBus } from '../EventBus'
 import { UiHandler } from '~/utils/handlers/UiHandler'
 import InteractiveHandler from '~/utils/handlers/InteractiveHandler'
 import GameHandler from '~/utils/handlers/GameHandler'
+import CardHandler from '~/utils/handlers/CardHandler'
+import DeckHandler from '~/utils/handlers/DeckHandler'
 
 export class MainMenu extends Scene {
   background?: GameObjects.Image
@@ -15,6 +17,7 @@ export class MainMenu extends Scene {
     handSizeRatio: 0.25,
     boardSizeRatio: 0.3
   }
+  passTurn: GameObjects.Text
   boardGroup: GameObjects.Group
   handGroup: GameObjects.Group
   cardPreview?: GameObjects.Sprite
@@ -23,6 +26,9 @@ export class MainMenu extends Scene {
   UIHandler: UiHandler
   InteractiveHandler: InteractiveHandler
   GameHandler: GameHandler
+  CardHandler: CardHandler
+  DeckHandler: DeckHandler
+
   constructor() {
     super('MainMenu')
   }
@@ -37,8 +43,8 @@ export class MainMenu extends Scene {
 
     this.UIHandler = new UiHandler(this);
     this.UIHandler.buildUI(5);
-    // this.CardHandler = new CardHandler();
-    // this.DeckHandler = new DeckHandler(this);
+    this.CardHandler = new CardHandler();
+    this.DeckHandler = new DeckHandler(this);
     this.GameHandler = new GameHandler();
     // this.SocketHandler = new SocketHandler(this);
     this.InteractiveHandler = new InteractiveHandler(this);

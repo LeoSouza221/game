@@ -5,6 +5,7 @@ export class UiHandler {
   zoneHandler: ZoneHandler
   buildZones: (zoneQuantity: number) => void
   buildUI: (zoneQuantity: number) => void
+  buildGameText: () => void
   constructor(scene: MainMenu) {
     this.zoneHandler = new ZoneHandler(scene);
 
@@ -23,10 +24,15 @@ export class UiHandler {
       }
     }
 
+    this.buildGameText = () => {
+      const height = scene.game.config.height
+      scene.passTurn = scene.add.text(900, height - 240, "Pass Turn").setFontSize(30).setFontFamily('Trebuchet MS');
+    }
+
     this.buildUI = (zoneQuantity: number) => {
       this.buildZones(zoneQuantity);
       // this.buildPlayerAreas();
-      // this.buildGameText();
+      this.buildGameText();
     }
   }
 }
