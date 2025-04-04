@@ -1,98 +1,79 @@
-import type { Game, GameObjects, Input } from "phaser";
+import type { Game, GameObjects, Input, Types } from "phaser";
 import type { MainMenu } from "../game/scenes/MainMenu";
 
 export default class InteractiveHandler {
   game: Game
   localScene: MainMenu
+  delaydeCallTimer: Types.Time
+  startButtonPressTime: number = 0;
+
   constructor(scene: MainMenu) {
 
     scene.cardPreview = undefined;
     this.localScene = scene
     this.game = scene.game
-    scene.input.on('pointerdown', () => {
-      // scene.socket.emit("passTurn", scene.socket.id);
-      console.log('aqui 2')
+    // scene.input.on('pointerdown', () => {
+    //   // scene.socket.emit("passTurn", scene.socket.id);
+    //   console.log('aqui 2')
 
-      // scene.passTurn.disableInteractive();
-    })
+    //   // scene.passTurn.disableInteractive();
+    // })
 
-    // const button = this.add.rectangle(config.width / 2, config.height / 2, config.width / 3, config.height / 4, 0xff0000)
-    // const label = this.add.text(10, 10, 'Click and Hold')
-    //   .setScale(1.5)
-    //   .setOrigin(.5)
-    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
 
-    // const resultLabel1 = this.add.text(10, 10, 'Last Button press duration: ??? ')
-    //   .setScale(1.5)
-    //   .setOrigin(.5)
-    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
 
-    // const resultLabel2 = this.add.text(10, 10, 'You held at least 1 Second')
-    //   .setScale(1.5)
-    //   .setOrigin(.5)
-    //   .setVisible(false)
-    //   .setColor('#00ff00')
-    //   .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
+    this.delaydeCallTimer = {}
+    scene.passTurn.setInteractive()
+      .on('pointerdown', () => {
+        // reset everything
+        this.startButtonPressTime = Date.now();
+        // just to be save clear timer if a timer is still running
+        try {
+          if (this.delaydeCallTimer) {
+            this.delaydeCallTimer.remove(false)
+          }
+        } catch {
+          // just to be save
+        }
 
-    // Phaser.Display.Align.In.Center(label, button);
+        console.log('aqui')
+        // here you would call the function that pauses, or ... (I just show the text label)
 
-    // Phaser.Display.Align.To.BottomCenter(resultLabel1, button, 0, 10);
-    // Phaser.Display.Align.To.TopCenter(resultLabel2, button, 0, 10);
+      })
+      .on('pointerup', () => {
+        //just to be save clear timer if a timer is still running
+        try {
+          if (this.delaydeCallTimer) {
+            this.delaydeCallTimer.remove(false)
+          }
+        } catch {
+          // just to be save
+        }
 
-    // let startButtonPressTime = 0;
-    // let delaydeCallTimer;
-    // button.setInteractive()
-    //   .on('pointerdown', e => {
-    //     // reset everything
-    //     resultLabel2.setVisible(false);
-    //     startButtonPressTime = Date.now();
-    //     resultLabel1.setText(`Last Button press duration: ??? `);
-    //     // just to be save clear timer if a timer is still running
-    //     try {
-    //       if (delaydeCallTimer) {
-    //         delaydeCallTimer.remove(false)
-    //       }
-    //     } catch (e) {
-    //       // just to be save
-    //     }
+        this.delaydeCallTimer = scene.time.delayedCall(1000, () => console.log((Date.now() - startButtonPressTime) / 1000));
+        // resultLabel1.setText(`Last Button press duration: ${((Date.now() - startButtonPressTime) / 1000).toFixed(2)}s`);
+      })
 
-    //     // here you would call the function that pauses, or ... (I just show the text label)
-    //     delaydeCallTimer = this.time.delayedCall(1000, e => resultLabel2.setVisible(true));
-    //   })
-    //   .on('pointerup', e => {
-    //     //just to be save clear timer if a timer is still running
-    //     try {
-    //       if (delaydeCallTimer) {
-    //         delaydeCallTimer.remove(false)
-    //       }
-    //     } catch (e) {
-    //       // just to be save
-    //     }
+    // scene.input.on('pointerover', () => {
+    //   console.log('aqui')
+    //   scene.passTurn.setColor('#ff69b4');
+    // })
 
-    //     resultLabel1.setText(`Last Button press duration: ${((Date.now() - startButtonPressTime) / 1000).toFixed(2)}s`);
-    //   })
+    // scene.input.on('pointerout', () => {
+    //   scene.passTurn.setColor('#00ffff');
+    // })
 
-    scene.input.on('pointerover', () => {
-      console.log('aqui')
-      scene.passTurn.setColor('#ff69b4');
-    })
+    // scene.input.on('pointerover', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
+    //   const pointer = scene.input.activePointer;
+    //   // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
+    //   //   scene.cardPreview = scene.add.image(pointer.worldX, pointer.worldY, gameObjects[0].data.values.sprite).setScale(0.5, 0.5);
+    //   // };
+    // });
 
-    scene.input.on('pointerout', () => {
-      scene.passTurn.setColor('#00ffff');
-    })
-
-    scene.input.on('pointerover', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
-      const pointer = scene.input.activePointer;
-      // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-      //   scene.cardPreview = scene.add.image(pointer.worldX, pointer.worldY, gameObjects[0].data.values.sprite).setScale(0.5, 0.5);
-      // };
-    });
-
-    scene.input.on('pointerout', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
-      // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-      //   scene.cardPreview?.setVisible(false);
-      // };
-    });
+    // scene.input.on('pointerout', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
+    //   // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
+    //   //   scene.cardPreview?.setVisible(false);
+    //   // };
+    // });
 
     scene.input.on("dragstart", (_: Input.Pointer, card: GameObjects.Image) => {
 
@@ -132,11 +113,11 @@ export default class InteractiveHandler {
 
       if (zonePosition >= 0) {
         if (zonePosition < 5 && gameObject.name === 'player1' || zonePosition >= 5 && gameObject.name === 'player2') {
-          this.changeDropzoneColor(0x11ff00, zonePosition, scene)
+          this.changeDropzoneColor(0x11ff00, zonePosition)
 
           return
         }
-        this.changeDropzoneColor(0xff3300, zonePosition, scene)
+        this.changeDropzoneColor(0xff3300, zonePosition)
 
       }
     });
@@ -246,39 +227,13 @@ export default class InteractiveHandler {
     }, this);
   }
 
-  getWidth() {
-    let width = 0
-
-    if (typeof this.game.config.width === 'string') {
-      width = Number.parseInt(this.game.config.width)
-    }
-    else {
-      width = this.game.config.width
-    }
-
-    return width
-  }
-
-  getHeight() {
-    let height = 0
-
-    if (typeof this.game.config.height === 'string') {
-      height = Number.parseInt(this.game.config.height)
-    }
-    else {
-      height = this.game.config.height
-    }
-
-    return height
-  }
-
   setHandCoordinates(n: number, totalCards: number) {
-    const width = this.getWidth()
-    const height = this.getHeight()
-    const teste = (totalCards - 1) * 0.5
+    const width = this.localScene.getWidth()
+    const height = this.localScene.getHeight()
+    const spaceBetweenCards = (totalCards - 1) * 0.5
 
     const rotation = 0
-    const xPosition = width / 2 - (140 * (n - teste) / 2);
+    const xPosition = width / 2 - (140 * (n - spaceBetweenCards) / 2);
     const yPosition = height - 100;
     return {
       x: xPosition,

@@ -1,3 +1,4 @@
+import { Display } from "phaser";
 import type { MainMenu } from "../game/scenes/MainMenu";
 import ZoneHandler from "./ZoneHandler";
 
@@ -5,7 +6,7 @@ export class UiHandler {
   zoneHandler: ZoneHandler
   buildZones: (zoneQuantity: number) => void
   buildUI: (zoneQuantity: number) => void
-  buildGameText: () => void
+  buildPassButton: () => void
   constructor(scene: MainMenu) {
     this.zoneHandler = new ZoneHandler(scene);
 
@@ -15,7 +16,6 @@ export class UiHandler {
       for (let i = 0; i < zoneQuantity; i++) {
         const zone = this.zoneHandler.renderZone(coordinateX);
 
-        console.log(scene.zones)
         scene.zones.push({ zone })
 
         this.zoneHandler.renderOutline(scene.zones[i].zone);
@@ -24,15 +24,26 @@ export class UiHandler {
       }
     }
 
-    this.buildGameText = () => {
-      const height = scene.game.config.height
-      scene.passTurn = scene.add.text(900, height - 240, "Pass Turn").setFontSize(30).setFontFamily('Trebuchet MS');
+    // this.buildGameText = () => {
+    //   const height = scene.game.config.height
+    //   scene.passTurn = scene.add.text(900, height - 240, "Pass Turn").setFontSize(30).setFontFamily('Trebuchet MS');
+    // }
+
+    this.buildPassButton = () => {
+      scene.passTurn = scene.add.circle(scene.getWidth() - 150, scene.getHeight() - 200, 100, 0xff69b4)
+      scene.passTurnLabel = scene.add.text(10, 10, 'Pass Turn')
+        .setScale(2)
+        .setOrigin(.5)
+        .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
+
+      Display.Align.In.Center(scene.passTurnLabel, scene.passTurn);
+
     }
 
     this.buildUI = (zoneQuantity: number) => {
       this.buildZones(zoneQuantity);
       // this.buildPlayerAreas();
-      this.buildGameText();
+      this.buildPassButton();
     }
   }
 }

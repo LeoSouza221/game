@@ -17,7 +17,8 @@ export class MainMenu extends Scene {
     handSizeRatio: 0.25,
     boardSizeRatio: 0.3
   }
-  passTurn: GameObjects.Text
+  passTurn: GameObjects.GameObject
+  passTurnLabel: GameObjects.Text
   boardGroup: GameObjects.Group
   handGroup: GameObjects.Group
   cardPreview?: GameObjects.Sprite
