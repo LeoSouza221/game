@@ -6,6 +6,7 @@ import InteractiveHandler from '~/utils/handlers/InteractiveHandler'
 import GameHandler from '~/utils/handlers/GameHandler'
 import CardHandler from '~/utils/handlers/CardHandler'
 import DeckHandler from '~/utils/handlers/DeckHandler'
+import type { BarHandler } from '~/utils/handlers/BarHandler'
 
 export class MainMenu extends Scene {
   background?: GameObjects.Image
@@ -29,6 +30,7 @@ export class MainMenu extends Scene {
   GameHandler: GameHandler
   CardHandler: CardHandler
   DeckHandler: DeckHandler
+  playerBar: BarHandler
 
   constructor() {
     super('MainMenu')

@@ -1,12 +1,14 @@
 import { Display } from "phaser";
 import type { MainMenu } from "../game/scenes/MainMenu";
 import ZoneHandler from "./ZoneHandler";
+import { BarHandler } from "./BarHandler";
 
 export class UiHandler {
   zoneHandler: ZoneHandler
   buildZones: (zoneQuantity: number) => void
   buildUI: (zoneQuantity: number) => void
   buildPassButton: () => void
+  buildPlayerHealthBar: () => void
   constructor(scene: MainMenu) {
     this.zoneHandler = new ZoneHandler(scene);
 
@@ -37,13 +39,19 @@ export class UiHandler {
         .setStyle({ fontStyle: 'bold', fontFamily: 'Arial' });
 
       Display.Align.In.Center(scene.passTurnLabel, scene.passTurn);
-
     }
+
+    this.buildPlayerHealthBar = () => {
+      scene.playerBar = new BarHandler(scene, 0, scene.getHeight() - 50)
+    }
+
+
 
     this.buildUI = (zoneQuantity: number) => {
       this.buildZones(zoneQuantity);
       // this.buildPlayerAreas();
       this.buildPassButton();
+      this.buildPlayerHealthBar();
     }
   }
 }
