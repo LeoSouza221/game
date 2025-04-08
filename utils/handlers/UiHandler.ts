@@ -9,6 +9,7 @@ export class UiHandler {
   buildUI: (zoneQuantity: number) => void
   buildPassButton: () => void
   buildPlayerHealthBar: () => void
+  buildTimeBar: () => void
   constructor(scene: MainMenu) {
     this.zoneHandler = new ZoneHandler(scene);
 
@@ -32,7 +33,7 @@ export class UiHandler {
     // }
 
     this.buildPassButton = () => {
-      scene.passTurn = scene.add.circle(scene.getWidth() - 150, scene.getHeight() - 200, 100, 0xff69b4)
+      scene.passTurn = scene.add.circle(scene.getWidth() - 150, scene.getHeight() - 200, 100, 0x8c1eff)
       scene.passTurnLabel = scene.add.text(10, 10, 'Pass Turn')
         .setScale(2)
         .setOrigin(.5)
@@ -45,13 +46,16 @@ export class UiHandler {
       scene.playerBar = new BarHandler(scene, 0, scene.getHeight() - 50)
     }
 
-
+    this.buildTimeBar = () => {
+      scene.timerBar = new BarHandler(scene, 0, scene.getHeight() / 2 - 50)
+    }
 
     this.buildUI = (zoneQuantity: number) => {
       this.buildZones(zoneQuantity);
       // this.buildPlayerAreas();
       this.buildPassButton();
       this.buildPlayerHealthBar();
+      this.buildTimeBar()
     }
   }
 }

@@ -31,6 +31,7 @@ export class MainMenu extends Scene {
   CardHandler: CardHandler
   DeckHandler: DeckHandler
   playerBar: BarHandler
+  timerBar: BarHandler
 
   constructor() {
     super('MainMenu')

@@ -45,10 +45,10 @@ export class BarHandler {
     this.bar.fillRect(this.x + 2, this.y + 2, scene.getWidth(), 50);
 
     if (this.value < 30) {
-      this.bar.fillStyle(0xff0000);
+      this.bar.fillStyle(0xff2975);
     }
     else {
-      this.bar.fillStyle(0xff69b4);
+      this.bar.fillStyle(0xff901f);
     }
 
     const d = Math.floor(this.p * this.value);
