@@ -1,10 +1,12 @@
+import type { GameObjects } from "phaser";
+
 export default class GameHandler {
   gameState = "Initializing";
   isMyTurn = false;
   playerDeck = [];
   opponentDeck = [];
-  playerHand = [];
-  opponentHand = [];
+  playerHand: GameObjects.Image[] = [];
+  opponentHand: GameObjects.Image[] = [];
   changeTurn: () => void
   changeGameState: (gameState: string) => void
 

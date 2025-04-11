@@ -7,7 +7,8 @@ import GameHandler from '~/utils/handlers/GameHandler'
 import CardHandler from '~/utils/handlers/CardHandler'
 import DeckHandler from '~/utils/handlers/DeckHandler'
 import type { BarHandler } from '~/utils/handlers/BarHandler'
-
+import SocketHandler from '~/utils/handlers/SocketHandler'
+import type { Socket } from 'socket.io-client'
 export class MainMenu extends Scene {
   background?: GameObjects.Image
   text?: GameObjects.Text
@@ -18,6 +19,7 @@ export class MainMenu extends Scene {
     handSizeRatio: 0.25,
     boardSizeRatio: 0.3
   }
+  socket: Socket
   passTurn: GameObjects.GameObject
   passTurnLabel: GameObjects.Text
   boardGroup: GameObjects.Group
@@ -30,6 +32,7 @@ export class MainMenu extends Scene {
   GameHandler: GameHandler
   CardHandler: CardHandler
   DeckHandler: DeckHandler
+  SocketHandler: SocketHandler
   playerBar: BarHandler
   timerBar: BarHandler
 
@@ -40,6 +43,14 @@ export class MainMenu extends Scene {
   preload() {
     this.load.image('star', 'assets/star.png')
     this.load.atlas('cards', 'assets/cards.png', 'assets/cards.json');
+
+    this.load.image('cyanCardBack', 'assets/CyanCardBack.png');
+    this.load.image('magentaCardBack', 'assets/CyanCardBack.png');
+    // this.load.image('cyanBoolean', 'assets/Cyan_Boolean3x.png');
+    // this.load.image('magentaBoolean', 'assets/Magenta_Boolean3x.png');
+    this.load.image('cyanPing', 'assets/Magenta_Ping3x.png');
+    this.load.image('magentaPing', 'assets/Magenta_Ping3x.png');
+
   }
 
   create() {
@@ -50,7 +61,7 @@ export class MainMenu extends Scene {
     this.CardHandler = new CardHandler();
     this.DeckHandler = new DeckHandler(this);
     this.GameHandler = new GameHandler();
-    // this.SocketHandler = new SocketHandler(this);
+    this.SocketHandler = new SocketHandler(this);
     this.InteractiveHandler = new InteractiveHandler(this);
 
     // // group containing cards on board
@@ -58,10 +69,10 @@ export class MainMenu extends Scene {
     // // group containing cards in hand
     this.handGroup = this.add.group();
 
-    for (let i = 0; i < this.gameOptions.startingCards; i++) {
-      const playerName = 'player1'
-      this.createCard(i, playerName);
-    }
+    // for (let i = 0; i < this.gameOptions.startingCards; i++) {
+    //   const playerName = 'player1'
+    //   this.createCard(i, playerName);
+    // }
 
     EventBus.emit('current-scene-ready', this)
   }

@@ -6,20 +6,20 @@ export default class InteractiveHandler {
   localScene: MainMenu
   delaydeCallTimer: Types.Time
   startButtonPressTime: number = 0;
+  width: number = 0
 
   constructor(scene: MainMenu) {
 
-    scene.cardPreview = undefined;
+    scene.cardPreview = undefined
     this.localScene = scene
     this.game = scene.game
+    this.width = scene.getWidth()
     // scene.input.on('pointerdown', () => {
     //   // scene.socket.emit("passTurn", scene.socket.id);
     //   console.log('aqui 2')
 
     //   // scene.passTurn.disableInteractive();
     // })
-
-
 
     this.delaydeCallTimer = {}
     scene.passTurn.setInteractive()
@@ -49,31 +49,9 @@ export default class InteractiveHandler {
           // just to be save
         }
 
-        this.delaydeCallTimer = scene.time.delayedCall(1000, () => console.log((Date.now() - startButtonPressTime) / 1000));
+        this.delaydeCallTimer = scene.time.delayedCall(1000, () => console.log((Date.now() - this.startButtonPressTime) / 1000));
         // resultLabel1.setText(`Last Button press duration: ${((Date.now() - startButtonPressTime) / 1000).toFixed(2)}s`);
       })
-
-    // scene.input.on('pointerover', () => {
-    //   console.log('aqui')
-    //   scene.passTurn.setColor('#ff69b4');
-    // })
-
-    // scene.input.on('pointerout', () => {
-    //   scene.passTurn.setColor('#00ffff');
-    // })
-
-    // scene.input.on('pointerover', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
-    //   const pointer = scene.input.activePointer;
-    //   // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-    //   //   scene.cardPreview = scene.add.image(pointer.worldX, pointer.worldY, gameObjects[0].data.values.sprite).setScale(0.5, 0.5);
-    //   // };
-    // });
-
-    // scene.input.on('pointerout', (_: Input.Pointer, gameObjects: GameObjects.Image[]) => {
-    //   // if (gameObjects[0].type === "Image" && gameObjects[0].data.list.name !== "cardBack") {
-    //   //   scene.cardPreview?.setVisible(false);
-    //   // };
-    // });
 
     scene.input.on("dragstart", (_: Input.Pointer, card: GameObjects.Image) => {
 
@@ -257,9 +235,9 @@ export default class InteractiveHandler {
     }
   }
 
-  setPreviewCoordinates(n: number, totalCards: number) {
+  setPreviewCoordinates(n: number, totalCards: number,) {
     return {
-      x: this.getWidth() / 2 - (totalCards - 1)
+      x: this.width / 2 - (totalCards - 1)
         * this.localScene.gameOptions.cardWidth
         * this.localScene.gameOptions.boardSizeRatio * 0.6 + n
         * this.localScene.gameOptions.cardWidth * this.localScene.gameOptions.boardSizeRatio * 1.2,
