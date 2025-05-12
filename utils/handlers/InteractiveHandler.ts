@@ -54,22 +54,14 @@ export default class InteractiveHandler {
       })
 
     scene.input.on("dragstart", (_: Input.Pointer, card: GameObjects.Image) => {
+      // remove card from hand
+      card.setTint(0xff69b4);
+      // scene.handGroup.remove(card);
+      scene.children.bringToTop(card);
+      scene.cardPreview?.setVisible(false);
 
-      // is the card in hand?
-      if (scene.handGroup.contains(card)) {
-
-        // remove card from hand
-        card.setTint(0xff69b4);
-        scene.handGroup.remove(card);
-        scene.children.bringToTop(card);
-        scene.cardPreview?.setVisible(false);
-
-        // re-arrange cards in hand
-        this.arrangeCardsInHand();
-
-        // bring the card in front
-        // card.setDepth(scene.handGroup.countActive());
-      };
+      // re-arrange cards in hand
+      this.arrangeCardsInHand();
     });
 
     scene.input.on("drag", (pointer: Input.Pointer, card: GameObjects.Image, dragX: number, dragY: number) => {
@@ -115,29 +107,16 @@ export default class InteractiveHandler {
     });
 
     scene.input.on("drop", (_: Input.Pointer, card: GameObjects.Image, dropZone: GameObjects.Zone) => {
-      // Ajustar
-      // if (scene.GameHandler.isMyTurn && scene.GameHandler.gameState === "Ready") {
-      //   gameObject.x = (dropZone.x - 350) + (dropZone.data.values.cards * 50);
-      //   gameObject.y = dropZone.y;
-      //   // scene.dropZone.data.values.cards++;
-      //   scene.input.setDraggable(gameObject, false);
-      //   // scene.socket.emit('cardPlayed', gameObject.data.values.name, scene.socket.id);
-      // }
-      // else {
-      //   gameObject.x = gameObject.input?.dragStartX ?? 0;
-      //   gameObject.y = gameObject.input?.dragStartY ?? 0;
-      // }
-
       const zonePosition = Number.parseInt(dropZone.name)
 
       console.log(scene.GameHandler.isMyTurn, scene.GameHandler.gameState === "Ready")
       if (scene.GameHandler.isMyTurn && scene.GameHandler.gameState === "Ready") {
         card.x = dropZone.x;
         card.y = dropZone.y + 100;
-
-        if (card.input) {
-          card.input.enabled = false;
-        }
+        // AJUSTAR
+        // scene.dropZone.data.values.cards++;
+        scene.input.setDraggable(card, false);
+        scene.socket.emit('cardPlayed', card.data.values.name, scene.socket.id);
 
         if (zonePosition >= 0) {
           this.changeDropzoneColor(0xffff00, zonePosition)
@@ -148,42 +127,40 @@ export default class InteractiveHandler {
         return
       }
 
-      scene.handGroup.add(card);
-
+      // scene.children.sendToBack(card);
       card.x = card.input?.dragStartX ?? 0;
       card.y = card.input?.dragStartY ?? 0;
-      // arrange cards in hand
-      this.arrangeCardsInHand();
-      return
+      this.arrangeCardsInHand()
     });
 
     scene.input.on('dragend', (_: Input.Pointer, gameObject: GameObjects.Image, dropped: boolean) => {
       gameObject.setTint();
       if (!dropped) {
+        console.log(gameObject?.input?.dragStartX, gameObject?.input?.dragStartY)
         gameObject.x = gameObject?.input?.dragStartX ?? 0;
         gameObject.y = gameObject?.input?.dragStartY ?? 0;
       }
     })
 
-    // listener fired when we stop dragging
-    scene.input.on("dragend", (_: Input.Pointer, card: GameObjects.Image, dropped: boolean) => {
-      if (!scene.handGroup.contains(card) && !scene.boardGroup.contains(card)) {
-        // hide card preview
-        // this.cardPreview.visible = false;
+    // // listener fired when we stop dragging
+    // scene.input.on("dragend", (_: Input.Pointer, card: GameObjects.Image, dropped: boolean) => {
+    //   if (!scene.handGroup.contains(card) && !scene.boardGroup.contains(card)) {
+    //     // hide card preview
+    //     // this.cardPreview.visible = false;
 
-        // if the card hasn't been dropped in the drop zone...
+    //     // if the card hasn't been dropped in the drop zone...
 
-        if (!dropped) {
-          // add dragged card to hand group
-          scene.handGroup.add(card);
-
-          card.x = card.input?.dragStartX ?? 0;
-          card.y = card.input?.dragStartY ?? 0;
-          // arrange cards in hand
-          this.arrangeCardsInHand();
-        }
-      }
-    });
+    //     if (!dropped) {
+    //       // add dragged card to hand group
+    //       scene.handGroup.add(card);
+    //       console.log('aqui teste')
+    //       card.x = card.input?.dragStartX ?? 0;
+    //       card.y = card.input?.dragStartY ?? 0;
+    //       // arrange cards in hand
+    //       this.arrangeCardsInHand();
+    //     }
+    //   }
+    // });
   }
 
 

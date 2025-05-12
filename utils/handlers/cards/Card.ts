@@ -1,7 +1,7 @@
 import type { MainMenu } from "~/utils/game/scenes/MainMenu";
 
 export default class Card {
-  render: any
+  render: (x: number, y: number, type: string) => Phaser.GameObjects.Image
   name: string = ''
   playerCardSprite: string = ''
   opponentCardSprite: string = ''
@@ -15,11 +15,13 @@ export default class Card {
         sprite = this.opponentCardSprite;
       }
 
-      const card = scene.add.image(x, y, sprite).setScale(0.25, 0.25).setInteractive().setData({
+      const card = scene.add.image(x, y, sprite).setScale(0.5, 0.5).setInteractive().setData({
         "name": this.name,
         "type": type,
-        "sprite": sprite
+        "sprite": sprite,
       });
+      // const text = scene.add.text(0, 0, "Some text", {font: "16px Arial", color: '#ffffff' })
+
       if (type === 'playerCard') {
         scene.input.setDraggable(card);
       }

@@ -15,13 +15,11 @@ export default class DeckHandler {
         // boolean: new Boolean(scene),
         ping: new Ping(scene)
       }
-      const newCard = cards[name];
+      const newCard: Card = cards[name];
       const width = scene.getWidth()
       const height = scene.getHeight()
       const coordinates = this.setHandCoordinates(position, scene.gameOptions.startingCards, width, height);
-
-      console.log('coordinates', coordinates)
-      newCard.setOrigin(0.5, 1);
+      // newCard.setOrigin(0.5, 1);
       return newCard.render(coordinates.x, coordinates.y, type);
     }
   }
@@ -31,7 +29,7 @@ export default class DeckHandler {
 
     const rotation = 0
     const xPosition = width / 2 - (140 * (n - teste) / 2);
-    const yPosition = height - 100;
+    const yPosition = height - 200;
     return {
       x: xPosition,
       y: yPosition,
